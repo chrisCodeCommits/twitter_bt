@@ -1,18 +1,4 @@
 
-'''
-TASK:
-
-* login for twinter api
-
-* stream and listen to a specific hashtag
-
-* if "#icanhazpdf" is find, call Unpaywall API and look for the
-  requested PDF
-
-* Tweet a reply with the PDF url
-
-'''
-
 import twitterCredentials
 
 import tweepy
