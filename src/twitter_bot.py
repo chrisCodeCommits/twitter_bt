@@ -110,27 +110,29 @@ class HashtagListner(StreamListener):
 
 
         else:
+            print('code 6 executed')
 
             wrong_format_message = (
 
             f"@{user_to_tweet_to} I'm a bot who uses the @unpaywall API to look for"\
-            "free, legal full text documents. I can find what you're looking for"\
+            "free, legal full text documents. I can find what you're looking for "\
             f"if you format your tweet this way -->  DOI: your_doi_here {hashtag}"
 
                 )
 
+            print('code 7 executed')
+
             twitter_api.update_status(wrong_format_message, in_reply_to_status_id = tweet_id)
 
-
+            print('code 8 executed')
         return True
-
-        print('code 6 executed')
+        print('code 9 executed')
 
 
     def on_error(self, status):
         print(status)
 
-        print('code 7 executed')
+
 
 
 
