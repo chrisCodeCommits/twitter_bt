@@ -71,12 +71,18 @@ class HashtagListner(StreamListener):
                 not_found_message = (
 
                 f"@{user_to_tweet_to} I'm a bot who uses the @unpaywall API to look for"\
-                "free, legal full text documents. I didn't found anything in the data base"\
+                " free, legal full text documents. I didn't found anything in the data base"\
                 f"corresponding to the DOI you provided --> {tweeted_doi}"
 
                     )
 
                 twitter_api.update_status(not_found_message, in_reply_to_status_id = tweet_id)
+
+                # CONSOLE LOG
+                print(f"Tweet ID: {tweet_id}")
+                print("Correct tweet format | invalid DOI | documment not found")
+                print(" ")
+
 
 
             else:
@@ -89,13 +95,18 @@ class HashtagListner(StreamListener):
                 my_reply = (
 
                 f"@{user_to_tweet_to} I'm a bot who uses the @unpaywall API to look for"\
-                "free, legal full text documents. I found a free copy of what you requested"\
+                " free, legal full text documents. I found a free copy of what you requested"\
                 f"here: {free_fulltext_url}"
 
                 )
 
                 # Tweeting the result to the person who submited the request
                 twitter_api.update_status(my_reply, in_reply_to_status_id = tweet_id)
+
+                # CONSOLE LOG
+                print(f"Tweet ID: {tweet_id}")
+                print("Correct tweet format | valid DOI | documment found")
+                print(" ")
 
 
 ## ISSUE ##############################################################################
@@ -106,12 +117,18 @@ class HashtagListner(StreamListener):
             wrong_format_message = (
 
             f"@{user_to_tweet_to} I'm a bot who uses the @unpaywall API to look for"\
-            "free, legal full text documents. I can find what you're looking for "\
+            " free, legal full text documents. I can find what you're looking for "\
             f"if you format your tweet this way -->  DOI: your_doi_here {hashtag}"
 
                 )
 
             twitter_api.update_status(wrong_format_message, in_reply_to_status_id = tweet_id)
+
+            # CONSOLE LOG
+            print(f"Tweet ID: {tweet_id}")
+            print("Wrong tweet format | DOI not extracted | documment not found")
+            print(" ")
+
 
         return True
 
