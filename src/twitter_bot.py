@@ -124,9 +124,14 @@ class HashtagListner(StreamListener):
 
         return True
 
+        print('code 6 executed')
+
 
     def on_error(self, status):
         print(status)
+
+        print('code 7 executed')
+
 
 
 
