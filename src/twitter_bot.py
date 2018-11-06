@@ -18,7 +18,6 @@ import twitterCredentials
 import tweepy
 from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler, Stream
-#from tweepy import Stream
 import requests
 import json
 
@@ -26,6 +25,7 @@ import json
 
 
 
+## CONNECTING TO TWITTER API ##########################################################
 
 
 auth = OAuthHandler(
@@ -43,8 +43,7 @@ twitter_api = tweepy.API(auth)
 
 
 
-
-## CONNECTING TO TWITTER API AND GETTING THE NEEDED DATA ##############################
+## EXTRACTING AND PROCESSING DATA #####################################################
 
 
 # This class streams and processing live tweets.
@@ -101,6 +100,12 @@ class HashtagListner(StreamListener):
 
 
 
+## TRACKING THE HASHTAG ###############################################################
+
+
+hashtag = '#tstapp2018twmat'
+
+
 if __name__ == '__main__':
 
     # Self explanatory
@@ -109,7 +114,7 @@ if __name__ == '__main__':
 
     # To filter Twitter Streams in order to get data by specific keywords
     # #icanhazpd
-    stream.filter(track=['#tstapp2018twmat'])
+    stream.filter(track=[hashtag])
 
 
 
