@@ -19,21 +19,48 @@ from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler
 from tweepy import Stream
 import requests
+import json
 
 
 
-## THIS PART NEED TO BE REVIEWED ######################################################
+
+
+
+## CONNECTING TO TWITTER API AND GETTING THE NEEDED DATA ##############################
 
 
 # This class streams and processing live tweets.
 class HashtagListner(StreamListener):
 
+
     def on_data(self, data):
-        print(data)
+
+        # These lines convert gathered data to a python dictionary
+        # in order to allow an easy extraction of any piece of info
+        # about the tweet! Notice on the second line, I'm using
+        # the key 'text' because that is where the tweet is located.
+        tweet_detials   = json.loads(data)
+        tweet           = tweet_detials['text']
+
+        #Extracting the DOI from tweets
+        tweeted_doi = tweet.split(" ")[1]
+
+        # Connecting to Unpaywall API and passing the extracted DOI
+        # in order to find a match
+        response = requests.get(
+            f'http://api.unpaywall.org/{tweeted_doi}?email=chrispyprogrammer@gmail.com'
+            )
+
+        print(type(response))
+
         return True
+
 
     def on_error(self, status):
         print(status)
+
+
+
 
 
 if __name__ == '__main__':
@@ -55,17 +82,8 @@ if __name__ == '__main__':
     stream = Stream(auth, listener)
 
     # To filter Twitter Streams in order to get data by specific keywords
-    stream.filter(track=['#icanhazpdf'])
-
-
-#######################################################################################
-
-
-# CONNECTING TO UNPAYWALL API
-
-
-
-#response = requests.get('api.unpaywall.org/my/request?email=chrispyprogrammer@gmail.com')
+    # #icanhazpd
+    stream.filter(track=['#tstapp2018twmat'])
 
 
 
