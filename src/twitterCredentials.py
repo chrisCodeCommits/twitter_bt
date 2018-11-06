@@ -1,6 +1,6 @@
 # This viriables are assigned credentials to access twitter API
 
-ACCESS_TOKEN        =''
-ACCESS_TOKEN_SECRET =''
-CONSUMER_KEY        =''
-CONSUMER_SECRET     =''
+ACCESS_TOKEN        ='1059006414906146817-Nxa346y1uyVqGMTiVFmEsrBuYEagm0'
+ACCESS_TOKEN_SECRET ='z9CJ8sHmhwsV1iyU2iBSOKI0CJvTmmDJS7pOPxc5AjGU6'
+CONSUMER_KEY        ='7V4zVkKzsfy7y4JbtOxKmYQ6y'
+CONSUMER_SECRET     ='KLA2UUls3WjtPvb5XMLKvBO6oC3eoFtu2eCfuMGJRDxAEgTPpC'

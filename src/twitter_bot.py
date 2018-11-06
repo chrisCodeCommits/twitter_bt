@@ -18,7 +18,11 @@ import twitterCredentials
 from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler
 from tweepy import Stream
+import requests
 
+
+
+## THIS PART NEED TO BE REVIEWED ######################################################
 
 
 # This class streams and processing live tweets.
@@ -39,19 +43,31 @@ if __name__ == '__main__':
     listener = HashtagListner()
 
     auth = OAuthHandler(
-        twitter_credentials.CONSUMER_KEY,
-        twitter_credentials.CONSUMER_SECRET
+        twitterCredentials.CONSUMER_KEY,
+        twitterCredentials.CONSUMER_SECRET
         )
 
     auth.set_access_token(
-        twitter_credentials.ACCESS_TOKEN,
-        twitter_credentials.ACCESS_TOKEN_SECRET
+        twitterCredentials.ACCESS_TOKEN,
+        twitterCredentials.ACCESS_TOKEN_SECRET
         )
 
     stream = Stream(auth, listener)
 
     # To filter Twitter Streams in order to get data by specific keywords
     stream.filter(track=['#icanhazpdf'])
+
+
+#######################################################################################
+
+
+# CONNECTING TO UNPAYWALL API
+
+
+
+#response = requests.get('api.unpaywall.org/my/request?email=chrispyprogrammer@gmail.com')
+
+
 
 
 
