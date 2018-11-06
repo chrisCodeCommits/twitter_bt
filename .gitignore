@@ -3,9 +3,9 @@ include/
 pip-selfcheck.json
 static-server/media-root/status/cfe/
 
-# Django related 
+# Django related
 # src/<yourproject>/settings/local.py
-# static-cdn/  # any collected static files 
+# static-cdn/  # any collected static files
 
 
 # Byte-compiled / optimized / DLL files
@@ -107,4 +107,6 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+twitterCredentials
 
