@@ -52,24 +52,18 @@ class HashtagListner(StreamListener):
         tweet_format     = tweet.split(" ")
 
 
-        print(len(tweet_format))
-        print('code 1 executed')
-
         # Checking the tweet format befor processing the request
         if len(tweet_format) == 3 and tweet_format[0].lower() == 'doi:' and tweet_format[-1].lower() == hashtag:
 
             #Extracting the DOI from the tweet
             tweeted_doi = tweet_format[1]
 
-            print('code 2 executed')
 
             # Connecting to Unpaywall API and passing the extracted DOI
             # in order to find a match
             response = requests.get(
                 f'http://api.unpaywall.org/{tweeted_doi}?email=chrispyprogrammer@gmail.com'
                 )
-
-            print('code 3 executed')
 
             # To handle cases where the DOI is not found or misspelled
             if response.reason == 'NOT FOUND':
@@ -81,9 +75,6 @@ class HashtagListner(StreamListener):
                 f"corresponding to the DOI you provided --> {tweeted_doi}"
 
                     )
-
-                print('code 4 executed')
-
 
                 twitter_api.update_status(not_found_message, in_reply_to_status_id = tweet_id)
 
@@ -106,11 +97,11 @@ class HashtagListner(StreamListener):
                 # Tweeting the result to the person who submited the request
                 twitter_api.update_status(my_reply, in_reply_to_status_id = tweet_id)
 
-                print('code 5 executed')
 
+## ISSUE ##############################################################################
+## THIS PART NEED ADJUSTMENT ##########################################################
 
         else:
-            print('code 6 executed')
 
             wrong_format_message = (
 
@@ -120,19 +111,13 @@ class HashtagListner(StreamListener):
 
                 )
 
-            print('code 7 executed')
-
             twitter_api.update_status(wrong_format_message, in_reply_to_status_id = tweet_id)
 
-            print('code 8 executed')
         return True
-        print('code 9 executed')
 
 
     def on_error(self, status):
         print(status)
-
-
 
 
 
