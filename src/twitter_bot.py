@@ -45,10 +45,10 @@ class HashtagListner(StreamListener):
         # in order to allow an easy extraction of any piece of info
         # about the tweet! Notice on the second line, I'm using
         # the key 'text' because that is where the tweet is located.
-        tweet_detials    = json.loads(data)
-        tweet            = tweet_detials['text']
-        tweet_id         = tweet_detials['id']
-        user_to_tweet_to = tweet_detials['user']['screen_name']
+        tweet_details    = json.loads(data)
+        tweet            = tweet_details['text']
+        tweet_id         = tweet_details['id']
+        user_to_tweet_to = tweet_details['user']['screen_name']
         tweet_format     = tweet.split(" ")
 
 
