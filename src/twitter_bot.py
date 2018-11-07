@@ -7,11 +7,20 @@ from tweepy import OAuthHandler, Stream
 import requests
 import json
 
+from pprint import pprint as pp
+import pdb
 
 
 
 
-## CONNECTING TO TWITTER API ##########################################################
+
+
+
+
+
+
+
+## CONNECTING TO TWITTER API ###################################################################
 
 
 auth = OAuthHandler(
@@ -28,11 +37,66 @@ twitter_api = tweepy.API(auth)
 
 
 
-hashtag = '#tstapp2018twmat'
+MATCH_HASHTAG = '#icanhazpd'
 
 
 
-## EXTRACTING AND PROCESSING DATA #####################################################
+## CHECKING DOI WITHIN TWEETS ##################################################################
+
+
+def check_tweet(tweet):
+    print("Checking Tweet...")
+    print(tweet)
+    print()
+
+    # Self explanatory
+    doi_index = tweet.lower().find("doi:")
+
+    response = {
+        "correct_form": False,
+        "doi": None,
+        "reason": None
+    }
+
+    # making sure that 'DOI:' is included in the tweet
+    if doi_index < 0:
+        response['reason'] = '"DOI:" not in Tweet'
+        return response
+
+    # COSOLE LOG
+    print(doi_index)
+
+    string_after_doi = tweet[doi_index:]
+    # COSOLE LOG
+    print(string_after_doi)
+
+    ignore, doi_string = string_after_doi.split(":")
+    # COSOLE LOG
+    print(doi_string)
+
+    doi_string_stripped = doi_string.strip()
+    # COSOLE LOG
+    print(doi_string_stripped)
+
+    doi, *anything_after_doi = doi_string_stripped.split()
+
+    response['doi'] = doi
+
+    # Validating DOI format
+    if not doi.startswith("10."):
+        response['reason'] = "Improper DOI"
+        return response
+
+    response['correct_form'] = True
+
+    return response
+
+
+
+
+
+
+## EXTRACTING AND PROCESSING DATA ##############################################################
 
 
 # This class streams and processing live tweets.
@@ -45,19 +109,21 @@ class HashtagListner(StreamListener):
         # in order to allow an easy extraction of any piece of info
         # about the tweet! Notice on the second line, I'm using
         # the key 'text' because that is where the tweet is located.
-        tweet_details    = json.loads(data)
-        tweet            = tweet_details['text']
-        tweet_id         = tweet_details['id']
-        user_to_tweet_to = tweet_details['user']['screen_name']
-        tweet_format     = tweet.split(" ")
+        tweet_detials    = json.loads(data)
+        tweet            = tweet_detials['text']
+        tweet_id         = tweet_detials['id']
+        user_to_tweet_to = tweet_detials['user']['screen_name']
+        is_reply_tweet = tweet_detials['in_reply_to_user_id']
 
 
         # Checking the tweet format befor processing the request
-        if len(tweet_format) == 3 and tweet_format[0].lower() == 'doi:' and tweet_format[-1].lower() == hashtag:
+        checked_tweet = check_tweet(tweet)
+
+        if checked_tweet["correct_form"]:
+            print("Tweet is formed correctly")
 
             #Extracting the DOI from the tweet
-            tweeted_doi = tweet_format[1]
-
+            tweeted_doi = checked_tweet['doi']
 
             # Connecting to Unpaywall API and passing the extracted DOI
             # in order to find a match
@@ -67,27 +133,25 @@ class HashtagListner(StreamListener):
 
             # To handle cases where the DOI is not found or misspelled
             if response.reason == 'NOT FOUND':
+                print(f"Could not find DOI: {tweeted_doi} in Database")
 
                 not_found_message = (
 
                 f"@{user_to_tweet_to} I'm a bot who uses the @unpaywall API to look for"\
                 " free, legal full text documents. I didn't found anything in the data base"\
-                f"corresponding to the DOI you provided --> {tweeted_doi}"
+                f" corresponding to the DOI you provided --> {tweeted_doi}"
 
                     )
 
                 twitter_api.update_status(not_found_message, in_reply_to_status_id = tweet_id)
-
-                # CONSOLE LOG
-                print(f"Tweet ID: {tweet_id}")
-                print("Correct tweet format | invalid DOI | documment not found")
-                print(" ")
-
-
+                print("")
 
             else:
 
                 json_data = response.json()
+
+                #CONSOLE LOG
+                print(f"Successfully retrieved PDF for DOI: {tweeted_doi}")
 
                 # Extracting the link to the document
                 free_fulltext_url = json_data['results'][0]['free_fulltext_url']
@@ -96,39 +160,43 @@ class HashtagListner(StreamListener):
 
                 f"@{user_to_tweet_to} I'm a bot who uses the @unpaywall API to look for"\
                 " free, legal full text documents. I found a free copy of what you requested"\
-                f"here: {free_fulltext_url}"
+                f" here: {free_fulltext_url}"
 
                 )
 
                 # Tweeting the result to the person who submited the request
                 twitter_api.update_status(my_reply, in_reply_to_status_id = tweet_id)
 
-                # CONSOLE LOG
-                print(f"Tweet ID: {tweet_id}")
-                print("Correct tweet format | valid DOI | documment found")
-                print(" ")
 
 
-## ISSUE ##############################################################################
-## THIS PART NEED ADJUSTMENT ##########################################################
+
+
+## HANDLING WRONG TWEET FORMAT #################################################################
+
 
         else:
+            if is_reply_tweet:
+
+                # CONSOLE LOG
+                print("This is a reply tweet")
+
+                return True
+
+
+            print(f"Tweet is formatted incorrectly")
+            print(f"REASON: {checked_tweet['reason']}")
+            print(checked_tweet['doi'])
 
             wrong_format_message = (
 
             f"@{user_to_tweet_to} I'm a bot who uses the @unpaywall API to look for"\
             " free, legal full text documents. I can find what you're looking for "\
-            f"if you format your tweet this way -->  DOI: your_doi_here {hashtag}"
+            " if you add a DOI like this: 'DOI:10.9999/example1234' (remember to include"\
+            " our hashtag too)"
 
                 )
 
             twitter_api.update_status(wrong_format_message, in_reply_to_status_id = tweet_id)
-
-            # CONSOLE LOG
-            print(f"Tweet ID: {tweet_id}")
-            print("Wrong tweet format | DOI not extracted | documment not found")
-            print(" ")
-
 
         return True
 
@@ -140,7 +208,7 @@ class HashtagListner(StreamListener):
 
 
 
-## TRACKING THE HASHTAG ###############################################################
+## TRACKING THE HASHTAG #######################################################################
 
 
 if __name__ == '__main__':
@@ -150,11 +218,6 @@ if __name__ == '__main__':
     stream = Stream(auth, listener)
 
     # To filter Twitter Streams in order to get data by specific keywords
-    # #icanhazpd
-    stream.filter(track=[hashtag])
-
-
-
-
+    stream.filter(track=[MATCH_HASHTAG])
 
 
