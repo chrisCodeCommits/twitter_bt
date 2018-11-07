@@ -41,6 +41,8 @@ MATCH_HASHTAG = '#icanhazpd'
 
 
 
+
+
 ## CHECKING DOI WITHIN TWEETS ##################################################################
 
 
@@ -90,8 +92,6 @@ def check_tweet(tweet):
     response['correct_form'] = True
 
     return response
-
-
 
 
 
@@ -203,7 +203,6 @@ class HashtagListner(StreamListener):
 
     def on_error(self, status):
         print(status)
-
 
 
 
