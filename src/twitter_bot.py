@@ -63,19 +63,19 @@ def check_tweet(tweet):
         response['reason'] = '"DOI:" not in Tweet'
         return response
 
-    # COSOLE LOG
+    # CONSOLE LOG
     print(doi_index)
 
     string_after_doi = tweet[doi_index:]
-    # COSOLE LOG
+    # CONSOLE LOG
     print(string_after_doi)
 
     ignore, doi_string = string_after_doi.split(":")
-    # COSOLE LOG
+    # CONSOLE LOG
     print(doi_string)
 
     doi_string_stripped = doi_string.strip()
-    # COSOLE LOG
+    # CONSOLE LOG
     print(doi_string_stripped)
 
     doi, *anything_after_doi = doi_string_stripped.split()
