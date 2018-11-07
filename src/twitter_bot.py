@@ -161,7 +161,7 @@ class HashtagListner(StreamListener):
 
                 json_data = response.json()
 
-                #CONSOLE LOG
+                # CONSOLE LOG
                 print(f"Successfully retrieved PDF for DOI: {tweeted_doi}")
 
                 # Extracting the link to the document
