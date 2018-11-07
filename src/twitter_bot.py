@@ -142,6 +142,8 @@ class HashtagListner(StreamListener):
 
             # To handle cases where the DOI is not found or misspelled
             if response.reason == 'NOT FOUND':
+         
+                # CONSOLE LOG
                 print(f"Could not find DOI: {tweeted_doi} in Database")
 
                 not_found_message = (
