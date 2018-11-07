@@ -225,7 +225,8 @@ if __name__ == '__main__':
     listener = HashtagListner()
     stream = Stream(auth, listener)
 
-    # To filter Twitter Streams in order to get data by specific keywords
+    # To filter Twitter Streams in order 
+    # to get data by specific keywords
     stream.filter(track=[MATCH_HASHTAG])
 
 
