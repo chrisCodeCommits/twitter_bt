@@ -47,7 +47,7 @@ MATCH_HASHTAG = '#icanhazpd'
 
 
 def check_tweet(tweet):
-    
+
     # CONSOLE LOGS
     print("Checking Tweet...")
     print(tweet)
@@ -57,7 +57,7 @@ def check_tweet(tweet):
     doi_index = tweet.lower().find("doi:")
 
     response = {
-        
+
         "correct_form": False,
         "doi": None,
         "reason": None
@@ -82,12 +82,12 @@ def check_tweet(tweet):
     doi_string_stripped = doi_string.strip()
     # CONSOLE LOG
     print(doi_string_stripped)
-    
+
     # This will make it possible to deal with tweets that
     # do not necessarily have the advised format.
-    # the aim is to extrat the DOI even in cases where 
+    # the aim is to extrat the DOI even in cases where
     # users don't format their tweets exactly as advised.
-    # whenever the formating is close enough, they still 
+    # whenever the formating is close enough, they still
     # supposed to get a result.
     doi, *anything_after_doi = doi_string_stripped.split()
 
@@ -118,11 +118,11 @@ class HashtagListner(StreamListener):
         # in order to allow an easy extraction of any piece of info
         # about the tweet! Notice on the second line, I'm using
         # the key 'text' because that is where the tweet is located.
-        tweet_detials    = json.loads(data)
-        tweet            = tweet_detials['text']
-        tweet_id         = tweet_detials['id']
-        user_to_tweet_to = tweet_detials['user']['screen_name']
-        is_reply_tweet   = tweet_detials['in_reply_to_user_id']
+        tweet_details    = json.loads(data)
+        tweet            = tweet_details['text']
+        tweet_id         = tweet_details['id']
+        user_to_tweet_to = tweet_details['user']['screen_name']
+        is_reply_tweet   = tweet_details['in_reply_to_user_id']
 
 
         # Checking the tweet format befor processing the request
