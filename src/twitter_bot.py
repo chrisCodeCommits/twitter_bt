@@ -55,6 +55,7 @@ def check_tweet(tweet):
     doi_index = tweet.lower().find("doi:")
 
     response = {
+        
         "correct_form": False,
         "doi": None,
         "reason": None
@@ -113,7 +114,7 @@ class HashtagListner(StreamListener):
         tweet            = tweet_detials['text']
         tweet_id         = tweet_detials['id']
         user_to_tweet_to = tweet_detials['user']['screen_name']
-        is_reply_tweet = tweet_detials['in_reply_to_user_id']
+        is_reply_tweet   = tweet_detials['in_reply_to_user_id']
 
 
         # Checking the tweet format befor processing the request
