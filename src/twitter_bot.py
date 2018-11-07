@@ -47,6 +47,8 @@ MATCH_HASHTAG = '#icanhazpd'
 
 
 def check_tweet(tweet):
+    
+    # CONSOLE LOGS
     print("Checking Tweet...")
     print(tweet)
     print()
@@ -80,7 +82,13 @@ def check_tweet(tweet):
     doi_string_stripped = doi_string.strip()
     # CONSOLE LOG
     print(doi_string_stripped)
-
+    
+    # This will make it possible to deal with tweets 
+    # that do not necessarily have the advised format.
+    # the aim is to extrat the DOI even in cases where 
+    # users don't format their tweets exactly as advised.
+    # whenever the formating is close enough, they still 
+    # supposed to get a result.
     doi, *anything_after_doi = doi_string_stripped.split()
 
     response['doi'] = doi
