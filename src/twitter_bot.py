@@ -83,8 +83,8 @@ def check_tweet(tweet):
     # CONSOLE LOG
     print(doi_string_stripped)
     
-    # This will make it possible to deal with tweets 
-    # that do not necessarily have the advised format.
+    # This will make it possible to deal with tweets that
+    # do not necessarily have the advised format.
     # the aim is to extrat the DOI even in cases where 
     # users don't format their tweets exactly as advised.
     # whenever the formating is close enough, they still 
