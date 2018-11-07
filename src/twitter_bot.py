@@ -131,7 +131,7 @@ class HashtagListner(StreamListener):
         if checked_tweet["correct_form"]:
             print("Tweet is formed correctly")
 
-            #Extracting the DOI from the tweet
+            # Extracting the DOI from the tweet
             tweeted_doi = checked_tweet['doi']
 
             # Connecting to Unpaywall API and passing the extracted DOI
@@ -193,7 +193,7 @@ class HashtagListner(StreamListener):
 
                 return True
 
-
+            # CONSOLE LOGS
             print(f"Tweet is formatted incorrectly")
             print(f"REASON: {checked_tweet['reason']}")
             print(checked_tweet['doi'])
