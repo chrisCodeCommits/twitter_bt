@@ -37,7 +37,7 @@ twitter_api = tweepy.API(auth)
 
 
 
-MATCH_HASHTAG = '#icanhazpd'
+MATCH_HASHTAG = '#icanhazpdf'
 
 
 
@@ -129,6 +129,8 @@ class HashtagListner(StreamListener):
         checked_tweet = check_tweet(tweet)
 
         if checked_tweet["correct_form"]:
+            
+            # CONSOLE LOG
             print("Tweet is formed correctly")
 
             # Extracting the DOI from the tweet
